@@ -73,7 +73,20 @@ def train(data, X, Y, model, criterion, optim, batch_size):
                 id = perm[j * num_sub:(j + 1) * num_sub]
             else:
                 id = perm[j * num_sub:]
-            id = torch.tensor(id).to(device)
+                
+                
+            # id = torch.tensor(id)
+            id = torch.LongTensor(id).to(device)
+            # print("id:",id)
+            #id = torch.tensor(id).type(torch(bool))
+            print("id:",id)
+            #id = torch.tensor(id).type(torch(bool)).to(device)
+            #print("id:",id)
+            
+            
+            
+            
+           
             tx = X[:, :, id, :]
             ty = Y[:, id]
             output = model(tx,id)
@@ -102,7 +115,8 @@ parser.add_argument('--save', type=str, default='model/model.pt',
 parser.add_argument('--optim', type=str, default='adam')
 parser.add_argument('--L1Loss', type=bool, default=True)
 parser.add_argument('--normalize', type=int, default=2)
-parser.add_argument('--device',type=str,default='cuda:1',help='')
+#parser.add_argument('--device',type=str,default='cuda:1',help='')
+parser.add_argument('--device',type=str,default='cuda:0',help='')
 parser.add_argument('--gcn_true', type=bool, default=True, help='whether to add graph convolution layer')
 parser.add_argument('--buildA_true', type=bool, default=True, help='whether to construct adaptive adjacency matrix')
 parser.add_argument('--gcn_depth',type=int,default=2,help='graph convolution depth')
