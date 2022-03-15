@@ -65,6 +65,11 @@ class Optim(object):
         elif self.method == 'adadelta':
             self.optimizer = optim.Adadelta(self.params, lr=self.lr, weight_decay=self.lr_decay)
         elif self.method == 'adam':
+            print("type(self.params): ",type(self.params))
+            print("self.params: ",self.params)
+            print("self.lr: ",self.lr)
+            print("self.lr_decay: ",self.lr_decay)
+            
             self.optimizer = optim.Adam(self.params, lr=self.lr, weight_decay=self.lr_decay)
         else:
             raise RuntimeError("Invalid optim method: " + self.method)

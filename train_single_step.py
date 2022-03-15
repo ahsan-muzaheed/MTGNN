@@ -56,15 +56,26 @@ def evaluate(data, X, Y, model, evaluateL2, evaluateL1, batch_size):
 
 
 def train(data, X, Y, model, criterion, optim, batch_size):
+    print("train()")
+    numcycle=2
     model.train()
     total_loss = 0
     n_samples = 0
     iter = 0
+    cycle=0
     for X, Y in data.get_batches(X, Y, batch_size, True):
+        
+        #if  cycle> numcycle:
+            #print("break:--->",cycle)
+            #break
+        
         model.zero_grad()
         X = torch.unsqueeze(X,dim=1)
         X = X.transpose(2,3)
-        if iter % args.step_size == 0:
+        fff=iter % args.step_size
+        #print("iter:",iter)
+        #print("fff:",fff)
+        if  fff== 0:
             perm = np.random.permutation(range(args.num_nodes))
         num_sub = int(args.num_nodes / args.num_split)
 
@@ -79,7 +90,7 @@ def train(data, X, Y, model, criterion, optim, batch_size):
             id = torch.LongTensor(id).to(device)
             # print("id:",id)
             #id = torch.tensor(id).type(torch(bool))
-            print("id:",id)
+            #print("id:",id)
             #id = torch.tensor(id).type(torch(bool)).to(device)
             #print("id:",id)
             
@@ -99,9 +110,13 @@ def train(data, X, Y, model, criterion, optim, batch_size):
             n_samples += (output.size(0) * data.m)
             grad_norm = optim.step()
 
-        if iter%100==0:
+        fssfsf=iter%100
+        #print("iter%100:",fssfsf)
+        if fssfsf ==0:
             print('iter:{:3d} | loss: {:.3f}'.format(iter,loss.item()/(output.size(0) * data.m)))
         iter += 1
+        cycle=cycle+1
+        #print("cycle:--->",cycle)
     return total_loss / n_samples
 
 
